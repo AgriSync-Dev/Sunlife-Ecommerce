@@ -1,0 +1,261 @@
+@import "./styles/global.scss";
+
+.bg-primary{
+    background-color: rgba(3,150,255, 1) !important;
+}
+.background{
+    padding:100px
+  }
+  .faq{
+    height: 400px;
+  }
+  .center-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .search-icon{
+    margin-left: 340px;
+  }
+  .ff{
+    display: flex;
+  }
+  .thumbnail:hover {
+   color: rgb(3,150,255);
+    opacity: 0.5;
+    }
+    .line-through-text {
+      text-decoration: line-through;
+    }   
+/* Add a CSS class for mobile devices */
+@media (max-width: 767px) {
+  .mobile-padding {
+      padding: 0; /* Adjust the padding as needed */
+  }
+}
+.mixmatchCard {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  /* Add other styles for your card */
+}
+.table-container {
+  background-color: white;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.headingHome{
+  line-height: 1.25em;
+  text-align: center;
+  font-size: 40px
+}
+@media (max-width: 767px) {
+  .headingHome{
+    line-height: 1.25em;
+    text-align: center;
+    font-size: 23px
+  }
+}
+.subHeadingHome{
+  line-height: 1.67em;
+  text-align: center;
+  font-size: 20px
+}
+@media (max-width: 767px) {
+  .subHeadingHome{
+    line-height: 1.67em;
+    text-align: center;
+    font-size: 17px
+  }
+}
+@media (max-width:575px) {
+  .footerWidth{
+    width: 50%;
+  }
+  
+}
+.buttonDiv{
+  width:51% !important;
+}
+@media (max-width: 575px) {
+  .buttonDiv{
+    width:100% !important;
+  }
+}
+@media (min-width: 1407px) {
+  .buttonDiv{
+    width:48% !important;
+  }
+}
+@media (max-width: 571px) {
+  .fixContentCardMayLike{
+   justify-content: center;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 767px) {
+  .buttonDiv{
+    width:79% !important;
+  }
+}
+
+.orderborderButtom,
+.orderborderButtomNormal {
+  transition: border-bottom 0.5s ease;
+}
+
+.orderborderButtom:hover {
+  border-bottom: 1px solid black;
+}
+
+.orderborderButtomNormal {
+  border-bottom: 1px solid #DEE2E6;
+}
+.orderborderButtomNormalisopen {
+  border-bottom: 1px solid black;
+
+}
+@media  (max-width:425px){
+  .mixmatchCard{
+    width: 150px;
+    height: 150px;
+  }
+}
+@media  (max-width:525px){
+  .mixmatchCard{
+    width: 150px;
+    height: 150px;
+  }
+}
+@media screen and (min-width: 576px) and (max-width:960px){
+  .showtabletScreen{
+    overflow: auto;
+  }
+}
+.orderMobileViewButton{
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 15px;
+}
+.orderMobileViewButton:hover{
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  font-size: 15px;
+}
+.aboutUsBoxFirst{
+  margin-right:-24px;
+ /*  background-color: black; */
+  color:  black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+   /* height: 100%; */
+  padding: 20px ; 
+}
+@media (max-width: 768px) {
+.aboutUsBoxFirst{
+  margin-right:0.0001px;
+  /* background-color: black; */
+  color:  black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+   /* height: 100%; */
+  padding: "0px 20px 20px 20px"; 
+}
+
+}
+
+.yourScroll::-webkit-scrollbar {
+  width: 0; 
+  background: transparent;  
+  cursor: pointer;
+  height: 2px !important;
+}
+
+
+.yourScroll::-webkit-scrollbar-thumb {
+  background: #888;
+  cursor: pointer;
+  height: 2px !important;
+  
+}
+.featureRow{
+  justify-content: center
+}
+@media (min-width: 991px) {
+  .featureRow{
+    overflow-x:auto !important;
+    display:flex;
+    flex-wrap: nowrap !important;
+    gap:16px;
+    justify-content: start;
+   
+  }
+  }
+ 
+    .cardContent {
+      /* Styles for your existing card content */
+      transition: opacity 0.7s ease; /* Add a transition for a smooth effect */
+    }
+  
+    .plusIcon {
+      position: absolute;
+      top: 40%;
+      width: 40px;
+      height: 40px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      /* Add styles for your plus icon */
+    }
+  
+    &.hovered {
+      .card-content {
+        opacity: 100%; /* Adjust the opacity as per your preference */
+      }
+    }
+  
+
+
+
+
+
+.minimizeImage {
+  opacity: 0.5; /* Adjust the opacity as needed */
+}
+
+.mywishlistButton:hover{
+background-color: "black";
+color: "white";
+}
+
+.featured-carousel {
+  @media screen and (min-width:992px) {
+    display: flex;
+  }
+
+  @media screen and (max-width:992px) {
+    display: none ;
+  }
+}
+.max-img-width {
+  min-width: 20%; 
+}
+.img-blog img {
+  max-width: 100%; 
+  display: flex;
+  margin: 0 auto; /* Center the image horizontally */
+  height: auto;
+}
+.addressSaveButton{
+  max-width: 48%;
+}
+@media (max-width: 400px) {
+  .addressSaveButton{
+    max-width: 70% !important;
+   
+  }
+  }

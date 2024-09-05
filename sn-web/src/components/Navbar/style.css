@@ -1,0 +1,95 @@
+.bg-primary {
+	background-color: rgba(3, 150, 255, 1) !important;
+}
+
+/* .TabletView{
+display: none;
+} */
+/* .transition-effect {
+	 transition: all 1s ease; /* Define the transition properties 
+  } */
+
+.slider-1 {
+	display: flex;
+}
+
+@media (min-width: 800px) {
+	.TabletView {
+		display: flex !important;
+	}
+	.MobileView {
+		display: none !important;
+	}
+}
+
+@media (max-width: 800px) {
+	.MobileView {
+		display: block !important;
+		opacity: 1;
+		font-size: 14px;
+	}
+	.TabletView {
+		display: none !important;
+	}
+}
+.transition-effect {
+	opacity: 0;
+}
+@media (min-width: 1176px) {
+	.upperText {
+		padding: 0px 16px;
+	}
+}
+.coverPic {
+	object-fit: cover;
+}
+@media (min-width: 600px) {
+	.coverPic {
+		object-fit: cover;
+		min-height: 200px;
+	}
+}
+.myHoverClass:hover {
+	color: blue;
+	cursor: pointer;
+}
+.blogPadding {
+	padding-left: 48px;
+	padding-right: 48px;
+}
+@media (max-width: 640px) {
+	.blogPadding {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+.myblog {
+	width: 80%;
+	padding: 20px;
+}
+@media (max-width: 640px) {
+	.myblog {
+		width: 100%;
+		padding: 20px;
+	}
+}
+.myblogImg {
+	height: 35vw;
+	width: 75vw;
+	margin-top: 35px;
+}
+@media (max-width: 600px) {
+	.myblogImg {
+		height: 35vw;
+		width: 100%;
+	}
+}
+.capitalizeText {
+	text-transform: capitalize;
+}
+.lazy-load-image-background {
+	width: 100%;
+}
+.searchBoxpaddingleft {
+	padding-left: 1rem !important;
+}
