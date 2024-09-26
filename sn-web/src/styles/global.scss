@@ -875,3 +875,67 @@ body {
 		font-size: 16px;
 	}	
 }
+
+// Wallet connect test
+.wallet-connection {
+	position: relative;
+	display: inline-block;
+  }
+  
+  .wallet-connect-btn, .wallet-disconnect-btn {
+	padding: 8px 16px;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+  }
+  
+  .wallet-connect-btn {
+	background-color: #3498db;
+  }
+  
+  .wallet-connect-btn:hover {
+	background-color: #2980b9;
+  }
+  
+  .wallet-disconnect-btn {
+	background-color: #e74c3c;
+	margin-left: 8px;
+  }
+  
+  .wallet-disconnect-btn:hover {
+	background-color: #c0392b;
+  }
+  
+  .wallet-dropdown {
+	position: absolute;
+	right: 40px;
+	margin-top: 8px;
+	width: 200px;
+	background-color: white;
+	border-radius: 4px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	z-index: 10;
+  }
+  
+  .wallet-option {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding: 8px 16px;
+	border: none;
+	background-color: transparent;
+	text-align: left;
+	cursor: pointer;
+  }
+  
+  .wallet-option:hover {
+	background-color: #f1f1f1;
+  }
+  
+  .wallet-icon {
+	width: 24px;
+	height: 24px;
+	margin-right: 8px;
+  }

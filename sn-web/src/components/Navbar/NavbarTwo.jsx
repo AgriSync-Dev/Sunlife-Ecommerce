@@ -3,7 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
 import { apiGET, apiPOST } from "../../utilities/apiHelpers";
 import { useDispatch, useSelector } from "react-redux";
-import { removeUser, setUser, setCurrency, setCurrencyConvertedRate } from "../../redux/users/users";
+import {
+	removeUser,
+	setUser,
+	setCurrency,
+	setCurrencyConvertedRate,
+} from "../../redux/users/users";
 import { FiShoppingCart } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
 import { BiUser } from "react-icons/bi";
@@ -23,6 +28,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { convertCurrency } from "currency-converter-latest";
 import CurrencyConvertComp from "../currencyConvertComp";
+import { DiscoverWalletProviders } from "../web3/DiscoveryWalletProviders";
 
 const NavbarTwo = () => {
 	const [mobileMenu, setMobileMenu] = useState(false);
@@ -106,7 +112,9 @@ const NavbarTwo = () => {
 	};
 
 	let fetchSiteMetadata = async () => {
-		let res = await apiGET(`/v1/site-metadata/get-site-metadata-by-type?type=${"navbar"}`);
+		let res = await apiGET(
+			`/v1/site-metadata/get-site-metadata-by-type?type=${"navbar"}`
+		);
 		if (res?.status == 200) setSiteData(res.data.data.data[0].statements);
 	};
 
@@ -114,7 +122,11 @@ const NavbarTwo = () => {
 		fetchSiteMetadata();
 		document.addEventListener("mousedown", closeDropdown, handleCloseSignup);
 		return () => {
-			document.removeEventListener("mousedown", closeDropdown, handleCloseSignup);
+			document.removeEventListener(
+				"mousedown",
+				closeDropdown,
+				handleCloseSignup
+			);
 		};
 	}, []);
 
@@ -155,8 +167,9 @@ const NavbarTwo = () => {
 					if (carts?.length) {
 						for (let i = 0; i < carts?.length; i++) {
 							totalPrice +=
-								Number(carts[i]?.sale_price || carts[i]?.productDetails[0]?.price) *
-								Number(carts[i]?.quantity);
+								Number(
+									carts[i]?.sale_price || carts[i]?.productDetails[0]?.price
+								) * Number(carts[i]?.quantity);
 						}
 					}
 					setSubTotal(totalPrice.toFixed(2));
@@ -183,8 +196,9 @@ const NavbarTwo = () => {
 						for (let i = 0; i < carts?.length; i++) {
 							// totalPrice += carts[i]?.productDetails[0]?.price * carts[i]?.quantity
 							totalPrice +=
-								Number(carts[i]?.sale_price || carts[i]?.productDetails[0]?.price) *
-								Number(carts[i]?.quantity);
+								Number(
+									carts[i]?.sale_price || carts[i]?.productDetails[0]?.price
+								) * Number(carts[i]?.quantity);
 						}
 					}
 					setSubTotal(totalPrice.toFixed(2));
@@ -199,7 +213,9 @@ const NavbarTwo = () => {
 
 	const getSerchProducts = async () => {
 		try {
-			const response = await apiGET(`/v1/products/get-searchproducts?keyWord=${SearchKeyword}`);
+			const response = await apiGET(
+				`/v1/products/get-searchproducts?keyWord=${SearchKeyword}`
+			);
 			if (response?.status === 200) {
 				setProducts(response?.data?.data.slice(0, 5));
 			} else {
@@ -215,11 +231,15 @@ const NavbarTwo = () => {
 
 		let curruntDate = new Date();
 		let response;
-		response = await apiGET(`/v1/order/topFiveProduct?startDate=${formattedDate}&endDate=${curruntDate}`);
+		response = await apiGET(
+			`/v1/order/topFiveProduct?startDate=${formattedDate}&endDate=${curruntDate}`
+		);
 
 		if (response.status == 200) {
 			let arrayElement = response?.data?.data.slice(0, 6);
-			let filteredArray = arrayElement.filter((item) => item.productName !== "Mixed Wholesale");
+			let filteredArray = arrayElement.filter(
+				(item) => item.productName !== "Mixed Wholesale"
+			);
 			setProducts(filteredArray);
 		}
 	};
@@ -315,48 +335,52 @@ const NavbarTwo = () => {
 
 	const currencyConvertor = async () => {
 		try {
-			const response = await fetch('https://countriesnow.space/api/v0.1/countries/currency');
+			const response = await fetch(
+				"https://countriesnow.space/api/v0.1/countries/currency"
+			);
 			if (!response.ok) {
-				dispatch(
-					setCurrency({ currency: "GBP" })
-				)
-				throw new Error('Network response was not ok ' + response.statusText);
+				dispatch(setCurrency({ currency: "GBP" }));
+				throw new Error("Network response was not ok " + response.statusText);
 			}
 			const data = await response.json();
 			console.log("data:-", data);
 
-			const allCurrencies = data.data.map(country => country.currency);
-			const uniqueCurrencies = [...new Set(allCurrencies)]
-			const desiredCurrencies = ["GBP", "USD", "AUD", "CAD", "EUR"];  // Define the specific currencies you want
-			const filteredCurrencies = uniqueCurrencies.filter(currency => desiredCurrencies.includes(currency));
+			const allCurrencies = data.data.map((country) => country.currency);
+			const uniqueCurrencies = [...new Set(allCurrencies)];
+			const desiredCurrencies = ["GBP", "USD", "AUD", "CAD", "EUR"]; // Define the specific currencies you want
+			const filteredCurrencies = uniqueCurrencies.filter((currency) =>
+				desiredCurrencies.includes(currency)
+			);
 			setCurrencies(filteredCurrencies);
 			if (currency === undefined || currency === null || currency === "") {
-				dispatch(
-					setCurrency({ currency: "GBP" })
-				)
+				dispatch(setCurrency({ currency: "GBP" }));
 			}
 		} catch (error) {
-			console.error('Error fetching currency data:', error);
+			console.error("Error fetching currency data:", error);
 		}
 	};
 
 	const performConversion = async () => {
 		try {
 			const result = await convertCurrency("GBP", currency, 1);
-			dispatch(setCurrencyConvertedRate({ currencyConvertedRate: Number(result).toFixed(3) }));
+			dispatch(
+				setCurrencyConvertedRate({
+					currencyConvertedRate: Number(result).toFixed(3),
+				})
+			);
 		} catch (error) {
-			console.error('Conversion failed:', error);
+			console.error("Conversion failed:", error);
 		}
 	};
 
 	useEffect(() => {
-		currencyConvertor()
-	}, [])
+		currencyConvertor();
+	}, []);
 
 	useEffect(() => {
-		setSelectedCurrency(currency)
-		performConversion()
-	}, [currency])
+		setSelectedCurrency(currency);
+		performConversion();
+	}, [currency]);
 
 	console.log("currencies", currencies);
 	return (
@@ -369,7 +393,10 @@ const NavbarTwo = () => {
 				aria-labelledby="BackdropLabel"
 			>
 				<div class="offcanvas-header " style={{ backgroundColor: "#0396FF" }}>
-					<h5 class="w-full text-center offcanvas-title text-white fw-bold" id="BackdropLabel">
+					<h5
+						class="w-full text-center offcanvas-title text-white fw-bold"
+						id="BackdropLabel"
+					>
 						<div className="row ">
 							<div className=" d-flex  gap-3">
 								<div>
@@ -440,7 +467,11 @@ const NavbarTwo = () => {
 							<div
 								key={id}
 								className="text-center text-xl-start d-flex justify-content-center  justify-content-xl-start align-items-center h-100"
-								style={{ letterSpacing: "3px", textDecoration: "capitalize", fontSize: "14px" }}
+								style={{
+									letterSpacing: "3px",
+									textDecoration: "capitalize",
+									fontSize: "14px",
+								}}
 							>
 								{statement}
 							</div>
@@ -458,7 +489,11 @@ const NavbarTwo = () => {
 							<>
 								<div
 									key={id}
-									style={{ letterSpacing: "3px", textDecoration: "capitalize", fontSize: 14 }}
+									style={{
+										letterSpacing: "3px",
+										textDecoration: "capitalize",
+										fontSize: 14,
+									}}
 								>
 									{statement}{" "}
 								</div>
@@ -479,7 +514,11 @@ const NavbarTwo = () => {
 							<Link to={"/"} className="text-decoration-none">
 								<div className="pb-2 pt-2 ">
 									{" "}
-									<img src={logo} alt="logo-theSnuslife" className="logo-size" />{" "}
+									<img
+										src={logo}
+										alt="logo-theSnuslife"
+										className="logo-size"
+									/>{" "}
 								</div>
 							</Link>
 							{navLinks?.length ? (
@@ -506,31 +545,39 @@ const NavbarTwo = () => {
 							) : (
 								""
 							)}
-							<div className={`d-flex gap-3 align-items-center gap-sm-4`} style={{ height: "42px" }}>
-								{currencies?.length ? <div className="d-none d-lg-block">
-									<select
-										style={{
-											width: "65px", border: "1px solid black",
-											borderRadius: "6px", padding: "4px 0", fontSize: "14px",
-											fontWeight: 600, background: "transparent"
-										}}
-										value={selectedCurrency} onChange={(e) => {
-											setSelectedCurrency(e.target.value)
-											dispatch(
-												setCurrency({ currency: e.target.value })
-											)
-										}}>
-										<option disabled>Currency</option>
-										{currencies.map((item, id) => (
-											<option className="" key={id} value={item}>
-												{item}
-											</option>
-										))}
-									</select>
-								</div>
-									:
+							<div
+								className={`d-flex gap-3 align-items-center gap-sm-4`}
+								style={{ height: "42px" }}
+							>
+								{currencies?.length ? (
+									<div className="d-none d-lg-block">
+										<select
+											style={{
+												width: "65px",
+												border: "1px solid black",
+												borderRadius: "6px",
+												padding: "4px 0",
+												fontSize: "14px",
+												fontWeight: 600,
+												background: "transparent",
+											}}
+											value={selectedCurrency}
+											onChange={(e) => {
+												setSelectedCurrency(e.target.value);
+												dispatch(setCurrency({ currency: e.target.value }));
+											}}
+										>
+											<option disabled>Currency</option>
+											{currencies.map((item, id) => (
+												<option className="" key={id} value={item}>
+													{item}
+												</option>
+											))}
+										</select>
+									</div>
+								) : (
 									""
-								}
+								)}
 								<div className="justify-content-center cursor-pointer d-flex align-items-center ">
 									{searchInputVisible ? (
 										<SearchComponent
@@ -577,81 +624,88 @@ const NavbarTwo = () => {
 										<FiShoppingCart style={{ fontSize: "28px" }} />
 									)}
 								</div>
-								{
-									userData ? (
-										<div class="dropdown d-none d-lg-block " style={{ marginLeft: "-12px" }}>
-											<button
-												class="btn btn-transparent dropdown-toggle"
-												type="button"
-												id="dropdownMenuButton1"
-												data-bs-toggle="dropdown"
-												aria-expanded="false"
-											>
-												<BiUser className="fs-3" />
-											</button>
-											<ul
-												class="dropdown-menu"
-												aria-labelledby="dropdownMenuButton1"
-												onClick={() => {
-													if (localStorage.getItem("brandId")) {
-														localStorage.removeItem("brandId");
-													}
-												}}
-											>
-												<li>
-													<Link
-														to="/ordersPage"
-														className={`d-block dropdown-item text-decoration-none text-dark `}
-													>
-														My Orders
-													</Link>
-												</li>
-												<li>
-													<Link
-														to="/account/my-addresses"
-														className={`d-block dropdown-item text-decoration-none text-dark`}
-													>
-														My Addresses{" "}
-													</Link>
-												</li>
-												<li>
-													<Link
-														to="/myWishlist"
-														className={`d-block dropdown-item text-decoration-none text-dark`}
-													>
-														My Wishlist
-													</Link>
-												</li>
-												<li>
-													<Link
-														to="/account"
-														className={`d-block dropdown-item text-decoration-none text-dark`}
-													>
-														My Account
-													</Link>
-												</li>
-												<li>
-													<button
-														className="dropdown-item"
-														onClick={() => {
-															handleLogout();
-														}}
-													>
-														Logout
-													</button>
-												</li>
-											</ul>
-										</div>
-									) : (
-										<img
-											onClick={handleShowSignup}
-											className="cursor-pointer"
-											src={login}
-											alt="login"
-											style={{ width: "31px", height: "37px" }}
-										></img>
-									)
-								}
+								<div
+									className={`d-flex gap-3 align-items-center gap-sm-4`}
+									style={{ height: "42px" }}
+								>
+									<DiscoverWalletProviders />
+								</div>
+								{userData ? (
+									<div
+										class="dropdown d-none d-lg-block "
+										style={{ marginLeft: "-12px" }}
+									>
+										<button
+											class="btn btn-transparent dropdown-toggle"
+											type="button"
+											id="dropdownMenuButton1"
+											data-bs-toggle="dropdown"
+											aria-expanded="false"
+										>
+											<BiUser className="fs-3" />
+										</button>
+										<ul
+											class="dropdown-menu"
+											aria-labelledby="dropdownMenuButton1"
+											onClick={() => {
+												if (localStorage.getItem("brandId")) {
+													localStorage.removeItem("brandId");
+												}
+											}}
+										>
+											<li>
+												<Link
+													to="/ordersPage"
+													className={`d-block dropdown-item text-decoration-none text-dark `}
+												>
+													My Orders
+												</Link>
+											</li>
+											<li>
+												<Link
+													to="/account/my-addresses"
+													className={`d-block dropdown-item text-decoration-none text-dark`}
+												>
+													My Addresses{" "}
+												</Link>
+											</li>
+											<li>
+												<Link
+													to="/myWishlist"
+													className={`d-block dropdown-item text-decoration-none text-dark`}
+												>
+													My Wishlist
+												</Link>
+											</li>
+											<li>
+												<Link
+													to="/account"
+													className={`d-block dropdown-item text-decoration-none text-dark`}
+												>
+													My Account
+												</Link>
+											</li>
+											<li>
+												<button
+													className="dropdown-item"
+													onClick={() => {
+														handleLogout();
+													}}
+												>
+													Logout
+												</button>
+											</li>
+										</ul>
+									</div>
+								) : (
+									<img
+										onClick={handleShowSignup}
+										className="cursor-pointer"
+										src={login}
+										alt="login"
+										style={{ width: "31px", height: "37px" }}
+									></img>
+								)}
 								<div className="justify-content-center cursor-pointer d-flex  d-lg-none align-items-center">
 									<RxHamburgerMenu
 										onClick={() => {
@@ -705,7 +759,10 @@ const NavbarTwo = () => {
 										>
 											<BiUser className="fs-3 text-black" />
 										</button>
-										<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+										<ul
+											class="dropdown-menu"
+											aria-labelledby="dropdownMenuButton1"
+										>
 											<li
 												onClick={() => {
 													if (localStorage.getItem("brandId")) {
@@ -758,7 +815,10 @@ const NavbarTwo = () => {
 									</div>
 								) : (
 									<button className="text-white d-flex justify-content-center cursor-pointer custom-button">
-										<div className="d-flex align-item-center" onClick={handleShowSignup}>
+										<div
+											className="d-flex align-item-center"
+											onClick={handleShowSignup}
+										>
 											<img
 												src={loginWhite}
 												alt="login"
@@ -767,28 +827,35 @@ const NavbarTwo = () => {
 										</div>
 									</button>
 								)}
-								{currencies?.length ? <div>
-									<select
-										style={{
-											width: "65px", border: "1px solid black",
-											borderRadius: "6px", padding: "4px 0", fontSize: "14px",
-											fontWeight: 600, background: "transaparent"
-										}}
-										value={selectedCurrency} onChange={(e) => {
-											setSelectedCurrency(e.target.value)
-											dispatch(
-												setCurrency({ currency: e.target.value })
-											)
-										}}>
-										<option disabled>Currency</option>
-										{currencies.map((item, id) => (
-											<option className="" key={id} value={item}>{item}</option>
-										))}
-									</select>
-								</div>
-									:
+								{currencies?.length ? (
+									<div>
+										<select
+											style={{
+												width: "65px",
+												border: "1px solid black",
+												borderRadius: "6px",
+												padding: "4px 0",
+												fontSize: "14px",
+												fontWeight: 600,
+												background: "transaparent",
+											}}
+											value={selectedCurrency}
+											onChange={(e) => {
+												setSelectedCurrency(e.target.value);
+												dispatch(setCurrency({ currency: e.target.value }));
+											}}
+										>
+											<option disabled>Currency</option>
+											{currencies.map((item, id) => (
+												<option className="" key={id} value={item}>
+													{item}
+												</option>
+											))}
+										</select>
+									</div>
+								) : (
 									""
-								}
+								)}
 
 								<svg
 									className="cursor-pointer "
@@ -804,7 +871,12 @@ const NavbarTwo = () => {
 									xmlns="http://www.w3.org/2000/svg"
 									class="fs-3"
 								>
-									<path fill="none" stroke="#000" stroke-width="3" d="M3,3 L21,21 M3,21 L21,3"></path>
+									<path
+										fill="none"
+										stroke="#000"
+										stroke-width="3"
+										d="M3,3 L21,21 M3,21 L21,3"
+									></path>
 								</svg>
 							</div>
 							<div className="text-center fs-3 text-black">Menu</div>
@@ -842,14 +914,21 @@ const NavbarTwo = () => {
 						""
 					)}
 				</div>
-				<Signup show={showSignup} handleClose={handleCloseSignup} handleShowLogin={handleShowLogin} />
+				<Signup
+					show={showSignup}
+					handleClose={handleCloseSignup}
+					handleShowLogin={handleShowLogin}
+				/>
 				<Login
 					show={showLogin}
 					handleClose={handleCloseLogin}
 					handleShowSignup={handleShowSignup}
 					handelShowForgetPassword={handelShowForgetPassword}
 				/>
-				<ForgetPassword show={showForgetPassword} handleClose={handleCloseForgetPassword} />
+				<ForgetPassword
+					show={showForgetPassword}
+					handleClose={handleCloseForgetPassword}
+				/>
 			</div>
 		</>
 	);
